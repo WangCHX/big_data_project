@@ -61,7 +61,13 @@ def get_check_in_info(id, sig):
 	lng = location['lng']
 	categories = checkin['venue']['categories'][0]
 	categories_name = categories['name']
-	print user_id, lat, lng, date_info, categories_name
+#	print user_id, lat, lng, date_info, categories_name
+	temp = str(user_id) + '\t' + str(lat) + '\t' + str(lng) + '\t' + str(date_info) + '\t' + str(categories_name) + '\n'
+#	print temp
+	with open("test.txt", "a") as myfile:
+		myfile.write(temp)
+	
+	
 	
 for item in pager.get_iterator():
 	if 'entities' in item:
