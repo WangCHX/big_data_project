@@ -35,7 +35,7 @@ bitly = bitly_api.Connection(access_token = BITLY_ACCESS_TOKEN)
 #eastern = timezone('US/Eastern')
 #utc = timezone('UTC')
 
-pager = TwitterRestPager(api, 'search/tweets', {'q': SEARCH_TERM, 'latitude':'37.781157','longitude': '-122.398720', 'radius':'1mi'})
+pager = TwitterRestPager(api, 'search/tweets', {'q': SEARCH_TERM})
 
 def get_checkid_and_s(url):
 	checkin_index = url.find('checkin')
@@ -62,10 +62,12 @@ def get_check_in_info(id, sig):
 	categories = checkin['venue']['categories'][0]
 	categories_name = categories['name']
 #	print user_id, lat, lng, date_info, categories_name
-	temp = str(user_id) + '\t' + str(lat) + '\t' + str(lng) + '\t' + str(date_info) + '\t' + str(categories_name) + '\n'
+#	temp = str(user_id) + '\t' + str(lat) + '\t' + str(lng) + '\t' + str(date_info) + '\t' + str(categories_name) + '\n'
+	temp = str(lat) + '\t' + str(lng) + '\t' + str(categories_name)
 #	print temp
-	with open("test.txt", "a") as myfile:
-		myfile.write(temp)
+	print temp
+#	with open("test.txt", "a") as myfile:
+#		myfile.write(temp)
 	
 	
 	
@@ -76,34 +78,34 @@ for item in pager.get_iterator():
 				if '4sq.com' in url['expanded_url']:
 	#				print url['expanded_url']
 					data = bitly.expand(shortUrl=url['expanded_url'])
+#					expanded_url = urllib2.urlopen(url).geturl()
 	#				print data[0]['long_url']
 					if 'error' not in data[0]:
 						a, b = get_checkid_and_s(data[0]['long_url'])
+#					a, b = get_checkid_and_s(expanded_url)
 	#					print a,b
 #	#					print data[0]
 						get_check_in_info(a, b)
 			except urllib2.HTTPError, e:
-				print 'HTTPError = ' + str(e.code)
+#				print 'HTTPError = ' + str(e.code)
 				pass
 			except urllib2.URLError, e:
-				print 'URLError = ' + str(e.reason)
+#				print 'URLError = ' + str(e.reason)
 				pass
 			except httplib.HTTPException, e:
-				print 'HTTPException'
+#				print 'HTTPException'
 				pass
 			except Exception:
 				import traceback
-				print 'generic exception: ' + traceback.format_exc()
+#				print 'generic exception: ' + traceback.format_exc()
 				pass
 					
 
 
 #	if 'created_at' in item :
-##		created_at = datetime.strptime(item['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
-#		print item['created_at']
-	if 'text' in item:
-		print item['text']
-		
-	print 
-		
+#		created_at = datetime.strptime(item['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+#		print created_at
+#	if 'text' in item:
+#		print item['text']
+
 		
