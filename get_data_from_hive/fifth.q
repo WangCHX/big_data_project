@@ -10,7 +10,11 @@ create table daily_checkin as select to_date(time) as date, count(*) as cnt from
 
 create table nyc_daily_checkin as select to_date(time) as date, count(*) as cnt from nyc group by to_date(time) order by cnt DESC;
 
+create table nyc_10_09 as select * from nyc where to_date(time) = "2010-10-09" order by time;
+
 
 hive -e "select * from daily_checkin;" > daily_checkin.tsv
 
 hive -e "select * from nyc_daily_checkin;" > nyc_daily_checkin.tsv
+
+hive -e "select latitude, longitude, hour(time) from nyc_10_09;" > nyc_10_09_hour.tsv
